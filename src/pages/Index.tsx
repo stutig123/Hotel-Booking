@@ -114,11 +114,6 @@ export default function Index() {
                 <p className="text-muted-foreground mb-8">
                   {t.home.welcome.description2}
                 </p>
-                <Button asChild className="btn-primary">
-                  <Link to="/about">
-                    {t.home.welcome.learnMore} <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
               </div>
               
               <div className="relative animate-fade-in [animation-delay:300ms]">
