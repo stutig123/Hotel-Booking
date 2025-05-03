@@ -1,27 +1,35 @@
-# Stage 1: Build frontend
-FROM node:18 AS frontend-builder
-WORKDIR /app/frontend
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ .
-RUN npm run build
+# Step 1: Use the official Node.js Alpine image for the build environment
+FROM node:18-alpine as build
 
-# Stage 2: Setup backend and serve frontend
-FROM node:18
+# Step 2: Set the working directory inside the container
 WORKDIR /app
 
-# Install backend dependencies
-COPY backend/package*.json ./backend/
-RUN cd backend && npm install
+# Step 3: Copy the package.json and package-lock.json (or bun.lockb) files into the container
+COPY package*.json ./
+# If you use bun as the package manager, copy bun.lockb instead:
+# COPY bun.lockb ./
 
-# Copy backend source
-COPY backend ./backend
+# Step 4: Install dependencies using npm or bun (adjust according to your package manager)
+RUN npm install
+# If you're using bun, run the following instead:
+# RUN bun install
 
-# Copy built frontend into backend folder
-COPY --from=frontend-builder /app/frontend/dist ./backend/dist
+# Step 5: Copy the rest of the application files into the container
+COPY . .
 
-# Set working directory to backend and expose port
-WORKDIR /app/backend
-EXPOSE 5000
+# Step 6: Build the app
+RUN npm run build
+# If you're using bun, run the following instead:
+# RUN bun build
 
-CMD ["node", "server.js"]
+# Step 7: Use Nginx to serve the build output
+FROM nginx:alpine
+
+# Step 8: Copy the build output from the previous build stage to the Nginx container
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Step 9: Expose port 80 (default for Nginx)
+EXPOSE 80
+
+# Step 10: Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
