@@ -3,7 +3,10 @@ import React, { createContext, useState, useEffect, useContext, ReactNode } from
 import { en } from '../locales/en';
 import { it } from '../locales/it';
 
-type Translations = typeof en;
+// Update the Translations type to include language property
+type Translations = typeof en & {
+  language?: string;
+};
 
 interface LanguageContextType {
   language: string;
@@ -20,20 +23,20 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState('en');
-  const [t, setT] = useState<Translations>(translations.en);
+  const [t, setT] = useState<Translations>({...translations.en, language: 'en'});
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem('language');
     if (savedLanguage && translations[savedLanguage]) {
       setLanguage(savedLanguage);
-      setT(translations[savedLanguage]);
+      setT({...translations[savedLanguage], language: savedLanguage});
     }
   }, []);
 
   const changeLanguage = (lang: string) => {
     if (translations[lang]) {
       setLanguage(lang);
-      setT(translations[lang]);
+      setT({...translations[lang], language: lang});
       localStorage.setItem('language', lang);
     }
   };

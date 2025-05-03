@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -111,11 +110,11 @@ export default function ApartmentDetails() {
   }
 
   // Use translated name and description if available
-  const translatedName = t.language !== 'en' && t.apartmentDescriptions[apartment.id]?.name 
+  const translatedName = t.apartmentDescriptions[apartment.id]?.name 
     ? t.apartmentDescriptions[apartment.id].name 
     : apartment.name;
     
-  const translatedDescription = t.language !== 'en' && t.apartmentDescriptions[apartment.id]?.description 
+  const translatedDescription = t.apartmentDescriptions[apartment.id]?.description 
     ? t.apartmentDescriptions[apartment.id].description 
     : apartment.description;
 
