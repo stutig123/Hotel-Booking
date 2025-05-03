@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Users, Maximize, MapPin, Bath, Coffee, Wifi } from "lucide-react";
+import { Users, Maximize, MapPin, Bath, Coffee, Wifi, IndianRupee, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -92,11 +92,14 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
         
         <div className="flex items-end justify-between pt-2">
           <div>
-            <span className="text-xl font-bold">${apartment.price}</span>
+            <span className="text-xl font-bold">₹{apartment.price}</span>
             <span className="text-muted-foreground text-sm"> / {t.booking.summary.night}</span>
           </div>
           <Button asChild className="btn-primary">
-            <Link to={`/apartments/${apartment.id}`}>{t.apartments.filters.viewDetails}</Link>
+            <Link to={`/apartments/${apartment.id}`}>
+              <FileText className="h-4 w-4 mr-2" />
+              {t.apartments.filters.viewDetails}
+            </Link>
           </Button>
         </div>
       </div>

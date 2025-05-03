@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Check, CalendarIcon, Users } from "lucide-react";
+import { Check, CalendarIcon, Users, IndianRupee } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
